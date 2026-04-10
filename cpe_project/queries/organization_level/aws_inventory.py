@@ -97,7 +97,7 @@ PROD_ACCOUNTS = [
     "123456789012",  # myorg-global-ge-applications-prod
     "123456789012",  # myorg-global-grading-engine-prod
     "123456789012",  # myorg-hk-infra-prod
-    "123456789012",  # myorg-inscription-matching-prod
+    "123456789012",  # myorg-app-prod
     "123456789012",  # myorg-labdocs-prod
     "123456789012",  # myorg-labspark-prod
     "123456789012",  # myorg-mpp-prod
@@ -137,7 +137,7 @@ DEV_ACCOUNTS = [
     "123456789012",  # myorg-global-ge-applications-dev
     "123456789012",  # myorg-grading-engine-dev
     "123456789012",  # myorg-iam-dev
-    "123456789012",  # myorg-inscription-matching-dev
+    "123456789012",  # myorg-app-dev
     "123456789012",  # myorg-labdocs-dev
     "123456789012",  # myorg-labspark-dev
     "123456789012",  # myorg-mpp-dev
@@ -158,7 +158,7 @@ UAT_ACCOUNTS = [
     "123456789012",  # myorg-dig-uat
     "123456789012",  # myorg-facetware-uat
     "123456789012",  # myorg-iam-uat
-    "123456789012",  # myorg-inscription-matching-uat
+    "123456789012",  # myorg-app-uat
     "123456789012",  # myorg-mpp-uat
     "123456789012",  # myorg-nms-uat
     "123456789012",  # myorg-sample-app-1-uat

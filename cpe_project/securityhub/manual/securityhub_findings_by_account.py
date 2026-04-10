@@ -1,11 +1,11 @@
 """
 This script captuires the Security Hub findings for the accounts 
-belonging to the Beacon Project. 
+belonging to the Sample Project. 
 
 There are currently two accounts in scope:
 
-123456789012 - myorg-beacon-dev
-123456789012 - myorg-beacon-shared
+123456789012 - myorg-project-dev
+123456789012 - myorg-project-shared
 """
 import boto3
 
