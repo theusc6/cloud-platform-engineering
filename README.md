@@ -1,7 +1,7 @@
 
 # Cloud Platform Engineering
 
-![Sonarcloud status](https://github.com/theusc6/cloud-platform-engineering/actions/workflows/build.yaml/badge.svg?event=push)  ![Python status](https://github.com/theusc6/cloud-platform-engineering/actions/workflows/pylint.yaml/badge.svg?event=push)
+![Pylint](https://github.com/theusc6/cloud-platform-engineering/actions/workflows/pylint.yaml/badge.svg?event=push)
 
 **Automated AWS security compliance and infrastructure management at scale.**
 
