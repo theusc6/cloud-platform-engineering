@@ -135,14 +135,31 @@ Run checks, get a formatted report, optionally auto-remediate:
 
 ### Services Covered
 
-| Service | Controls | Script Count |
-|---------|----------|-------------|
-| S3 | Encryption, versioning, public access, logging, SSL | 9 |
-| EC2 | IMDSv2, EBS encryption, security groups, default VPC | 7 |
-| RDS | Deletion protection, IAM auth, monitoring, logging | 7 |
-| VPC | Flow logs, default SG, S2S VPN logging | 3 |
-| ECR | Image scanning, lifecycle policies, tag immutability | 3 |
-| KMS, ELB, DynamoDB, SQS, CloudFront, WAF, etc. | Various | 10+ |
+| Service | Controls | Scripts |
+|---------|----------|:-------:|
+| **S3** | Encryption, versioning, public access, logging, SSL, lifecycle policies | 10 |
+| **EC2** | IMDSv2, EBS encryption/recycle bin, security groups, default VPC, instance inventory | 9 |
+| **RDS** | Deletion protection, IAM auth, enhanced monitoring, logging, multi-AZ, minor version upgrades, public access | 8 |
+| **VPC** | Flow logs, default SG copy & clear, S2S VPN logging | 4 |
+| **API Gateway** | Execution logging (v1), X-Ray tracing (v1), access logging (v2) | 3 |
+| **ECR** | Image scanning, lifecycle policies, tag immutability | 3 |
+| **ELBv2** | Access logging, deletion protection, invalid header dropping | 3 |
+| **DynamoDB** | Point-in-time recovery, deletion protection | 2 |
+| **Athena** | Workgroup encryption, query logging | 2 |
+| **CloudFront** | Access logging | 1 |
+| **CloudTrail** | Trail deletion/cleanup | 1 |
+| **CloudWatch** | Log group retention policies | 1 |
+| **Control Tower** | Automated account provisioning | 1 |
+| **DocumentDB** | Audit logging | 1 |
+| **Kinesis** | Stream encryption | 1 |
+| **KMS** | Automatic key rotation | 1 |
+| **OpenSearch** | Service software updates | 1 |
+| **SageMaker** | Disable notebook root access | 1 |
+| **SNS** | Delivery status logging | 1 |
+| **SQS** | Server-side encryption | 1 |
+| **Step Functions** | Execution logging | 1 |
+| **WAF** | Web ACL logging | 1 |
+| | **Total** | **58** |
 
 ### Infrastructure as Code
 
