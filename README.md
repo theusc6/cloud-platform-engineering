@@ -38,17 +38,20 @@ Built on a reusable `core` module that provides shared AWS session management, a
                     │  └───────────────────────┘   │
                     └──────────┬──────────────────┘
                                │
-          ┌────────────────────┼────────────────────┐
-          │                    │                     │
-  ┌───────▼────────┐  ┌───────▼────────┐  ┌────────▼───────┐
-  │  infra/         │  │  securityhub/  │  │  deployments/  │
-  │  S3, EC2, RDS,  │  │  Findings      │  │  Inspector,    │
-  │  KMS, VPC ...   │  │  export/report │  │  Logging, ...  │
-  └────────────────┘  └────────────────┘  └────────────────┘
-          │
-    ┌─────┴──────┐
-    │ CloudFormation/ │  IaC templates (CloudWatch, Backup, Nuke)
-    └────────────────┘
+      ┌───────────┬────────────┼──────────┬──────────────┐
+      │           │            │          │              │
+  ┌───▼────┐ ┌────▼─────┐ ┌───▼────┐ ┌───▼─────┐ ┌─────▼────┐
+  │ infra/ │ │security- │ │deploy- │ │queries/ │ │ github/  │
+  │ 22 AWS │ │hub/      │ │ments/  │ │Inventory│ │Org mgmt, │
+  │services│ │Findings  │ │Inspect,│ │& audit  │ │Dependabot│
+  └────────┘ │export    │ │Logging │ └─────────┘ └──────────┘
+             └──────────┘ └────────┘
+                               │
+                    ┌──────────▼──────────────────┐
+                    │  CloudFormation/             │  IaC templates
+                    │  asr/                        │  Automated Security Response
+                    │  policies/                   │  Service Control Policies
+                    └─────────────────────────────┘
 ```
 
 See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for design decisions and multi-account strategy.
@@ -83,19 +86,27 @@ pytest
 cloud-platform-engineering/
 ├── cpe_project/
 │   ├── core/               # Shared modules (AWSClient, ComplianceCheck, Logger)
-│   ├── infra/              # Service-specific compliance scripts
+│   ├── infra/              # Service-specific compliance & remediation scripts
 │   │   ├── s3/             #   S3 encryption, versioning, public access, logging
-│   │   ├── ec2/            #   IMDSv2, EBS encryption, security groups
-│   │   ├── rds/            #   Deletion protection, IAM auth, monitoring
-│   │   ├── kms/            #   Key rotation
-│   │   ├── ecr/            #   Image scanning, lifecycle policies
-│   │   ├── vpc/            #   Flow logs, default SG compliance
-│   │   └── ...             #   ELB, CloudFront, WAF, DynamoDB, SQS, etc.
-│   ├── securityhub/        # Security Hub findings export (CLI, Lambda, infra)
-│   ├── deployments/        # Multi-account deployment scripts
-│   ├── queries/            # AWS resource inventory and reporting
+│   │   ├── ec2/            #   IMDSv2, EBS encryption, security groups, default VPC
+│   │   ├── rds/            #   Deletion protection, IAM auth, monitoring, logging
+│   │   ├── vpc/            #   Flow logs, default SG, S2S VPN logging
+│   │   ├── ecr/            #   Image scanning, lifecycle policies, tag immutability
+│   │   ├── api_gateway/    #   Execution logging, X-Ray, access logging
+│   │   ├── elbv2/          #   Access logging, deletion protection
+│   │   └── ...             #   +15 more (DynamoDB, KMS, CloudFront, WAF, etc.)
+│   ├── securityhub/        # Security Hub findings export (CLI, Lambda, PDF reports)
+│   ├── deployments/        # Multi-account deployment (Inspector, CloudTrail, GuardDuty)
+│   ├── queries/            # AWS resource inventory (EC2, IAM, VPC, ACM, ECS, FSx)
+│   ├── github/             # GitHub org management, Dependabot alerts, archiving
+│   ├── config/             # AWS Config queries and compliance counts
+│   ├── ACM/                # Certificate Manager automation
+│   ├── tools/              # EBS snapshot management
+│   ├── webapp/             # Flask web UI for S3 compliance
+│   ├── scripts/            # Shell utilities (VPN diagnostics)
 │   └── policies/           # Service Control Policies (SCPs)
 ├── CloudFormation/         # IaC templates (CloudWatch, Backup, S3, Nuke)
+├── asr/                    # AWS Automated Security Response (SHARR) templates
 ├── examples/               # End-to-end runnable workflows
 ├── tests/                  # pytest suite (49 tests)
 └── docs/                   # Architecture and design documentation
