@@ -1,0 +1,9 @@
+SELECT
+  resourceId,
+  accountId,
+  configuration.instanceType,
+  tags,
+  availabilityZone
+WHERE
+  resourceType = 'AWS::EC2::Instance'
+  AND configuration.state.name = 'running'

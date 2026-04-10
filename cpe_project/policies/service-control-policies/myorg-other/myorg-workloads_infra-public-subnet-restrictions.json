@@ -1,0 +1,79 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Deny",
+      "NotAction": [
+        "elasticloadbalancing:*",
+        "apigateway:*",
+        "ec2:Describe*",
+        "ec2:GetConsole*",
+        "ec2:CreateTags",
+        "ec2:DeleteTags"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "ec2:Subnet": [
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-06bd408f11b413ed1",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-0362bffd4a7f6e41c",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-0d758595d3dda1b61",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-0ea2131eaf249d70a",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-0c2937aada45f7125",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-0623c363c4325745a",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-0d95b8143dadaabc5",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-0be24c97278e34cb3",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-07b2086fa077a42dd",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-04559d3239a713a6a",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-0b2ccda4221c52a90",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-0c7c3812897963458",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-0b5cc6a260f8eadd7",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-0b6c507713d78efca",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-0be47bb3f089ffc1f",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-079a0349ce19743aa",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-061ec63c43daaa2b4",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-0774a5f672e6ef51b",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-07cf4fd3fb5f294f9",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-044c6790fde6d953d",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-084d77c17cd8ad214",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-093fc3d8c5a0474ac",
+            "arn:aws:ec2:ap-southeast-1:123456789012:subnet/subnet-005ee43afdada440e",
+            "arn:aws:ec2:ap-southeast-1:123456789012:subnet/subnet-09499b867e9fd13e4",
+            "arn:aws:ec2:ap-southeast-1:123456789012:subnet/subnet-096d0a51ceb653059",
+            "arn:aws:ec2:ap-southeast-1:123456789012:subnet/subnet-0a8d8e92f29127ca2",
+            "arn:aws:ec2:ap-southeast-1:123456789012:subnet/subnet-00d328d5b8fb61a4a",
+            "arn:aws:ec2:ap-southeast-1:123456789012:subnet/subnet-0e3b5be71108fabe0",
+            "arn:aws:ec2:ap-southeast-1:123456789012:subnet/subnet-0d8cb9e39719590bd",
+            "arn:aws:ec2:ap-southeast-1:123456789012:subnet/subnet-062568226dadb3d2b",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-05e310dfde77ac97b",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-0592733ed2d52e412",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-02e00aee6db24f3b2",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-0717d7544b2ce6e78",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-0ad2c4bc7b10d5ff0",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-01242bf1c1c043b9c",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-004d7e01f406728f3",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-0d445743cd781c563",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-0a135a6b032fb08fe",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-0e2933a40b275aa32",
+            "arn:aws:ec2:ap-southeast-1:123456789012:subnet/subnet-0b37ea9341f002116",
+            "arn:aws:ec2:ap-southeast-1:123456789012:subnet/subnet-05aa0b6ee090f6d4f",
+            "arn:aws:ec2:ap-southeast-1:123456789012:subnet/subnet-05dd8b09e0521f56c",
+            "arn:aws:ec2:ap-southeast-1:123456789012:subnet/subnet-03361a28d500fa36a",
+            "arn:aws:ec2:ap-southeast-1:123456789012:subnet/subnet-0221253644068caa6",
+            "arn:aws:ec2:ap-southeast-1:123456789012:subnet/subnet-079450a1d1021e5b7",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-0f5013baa140d0a8a",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-01d7c2b964960ab96",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-0e37d72fd9ca1affa",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-0f8d374ed6cd88c57",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-093d9cec4804c98da",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-0232225fcc6357003",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-058efd8f6917d3ad7",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-08907daa3f12146a1",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-0b95d9392c9f2a8d5",
+            "arn:aws:ec2:us-west-2:123456789012:subnet/subnet-08ec5d032e8651f90"
+          ]
+        }
+      }
+    }
+  ]
+}

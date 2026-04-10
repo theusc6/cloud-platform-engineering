@@ -1,0 +1,204 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "PreventDeletionofVPCFlowLogs",
+      "Effect": "Deny",
+      "Action": [
+        "ec2:DeleteFlowLogs",
+        "logs:DeleteLogGroup",
+        "logs:DeleteLogStream"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "ArnNotLike": {
+          "aws:PrincipalARN": [
+            "arn:aws:iam::*:role/Terraform_github_actions",
+            "arn:aws:iam::*:role/terraform_github_actions",
+            "arn:aws:iam::*:role/terraform_github",
+            "arn:aws:iam::*:role/aws-reserved/sso.amazonaws.com/*/AWSReservedSSO_AWSAdministratorAccess_*",
+            "arn:aws:iam::*:role/github-cicd-cft-service-role"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "PreventCloudTrailDeletion",
+      "Action": [
+        "cloudtrail:StopLogging",
+        "cloudtrail:DeleteTrail"
+      ],
+      "Resource": "*",
+      "Effect": "Deny",
+      "Condition": {
+        "ArnNotLike": {
+          "aws:PrincipalARN": [
+            "arn:aws:iam::*:role/aws-reserved/sso.amazonaws.com/*/AWSReservedSSO_AWSAdministratorAccess_*"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "S3PublicRestrictions",
+      "Effect": "Deny",
+      "Action": [
+        "s3:PutBucketAcl",
+        "s3:PutAccountPublicAccessBlock",
+        "s3:PutBucketPublicAccessBlock"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "ArnNotLike": {
+          "aws:PrincipalARN": [
+            "arn:aws:iam::*:role/Terraform_github_actions",
+            "arn:aws:iam::*:role/terraform_github_actions",
+            "arn:aws:iam::*:role/terraform_github",
+            "arn:aws:iam::*:role/aws-reserved/sso.amazonaws.com/*/AWSReservedSSO_AWSAdministratorAccess_*",
+            "arn:aws:iam::*:role/github-cicd-cft-service-role",
+            "arn:aws:iam::*:role/stacksets-exec-*"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "PreventExternalS3Access",
+      "Effect": "Deny",
+      "Action": [
+        "s3:*"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringNotEquals": {
+          "aws:ResourceOrgID": "o-3jj2faa76f"
+        }
+      }
+    },
+    {
+      "Sid": "PreventAWSGlacierDeletions",
+      "Effect": "Deny",
+      "Action": [
+        "glacier:DeleteArchive",
+        "glacier:DeleteVault"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "ArnNotLike": {
+          "aws:PrincipalARN": "arn:aws:iam::*:role/aws-reserved/sso.amazonaws.com/*/AWSReservedSSO_AWSAdministratorAccess_*"
+        }
+      }
+    },
+    {
+      "Sid": "PreventCloudWatchDeletion",
+      "Effect": "Deny",
+      "Action": [
+        "cloudwatch:DeleteAlarms",
+        "cloudwatch:DeleteDashboards",
+        "cloudwatch:DisableAlarmActions",
+        "cloudwatch:PutDashboard",
+        "cloudwatch:PutMetricAlarm",
+        "cloudwatch:SetAlarmState"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "ArnNotLike": {
+          "aws:PrincipalARN": [
+            "arn:aws:iam::*:role/aws-reserved/sso.amazonaws.com/*/AWSReservedSSO_AWSAdministratorAccess_*",
+            "arn:aws:iam::*:role/Terraform_github_actions",
+            "arn:aws:iam::*:role/terraform_github",
+            "arn:aws:iam::123456789012:role/ags-redacted-service-prod-github-infrastructure-admin-role"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "PreventAWSBackupModifications",
+      "Effect": "Deny",
+      "Action": [
+        "backup:Delete*",
+        "backup:PutBackupVaultAccessPolicy",
+        "backup:PutBackupVaultNotifications",
+        "backup:UpdateBackupPlan",
+        "backup:UpdateRecoveryPointLifecycle",
+        "backup:UpdateRegionSettings"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "ArnNotLike": {
+          "aws:PrincipalARN": [
+            "arn:aws:iam::*:role/aws-reserved/sso.amazonaws.com/*/AWSReservedSSO_AWSAdministratorAccess_*",
+            "arn:aws:iam::*:role/Terraform_github_actions"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "DenyEc2WithoutEncryption",
+      "Effect": "Deny",
+      "Action": "ec2:CreateVolume",
+      "Resource": "*",
+      "Condition": {
+        "Bool": {
+          "ec2:Encrypted": "false"
+        }
+      }
+    },
+    {
+      "Sid": "PreventDisablingofDefaultEBSEncryption",
+      "Effect": "Deny",
+      "Action": [
+        "ec2:DisableEbsEncryptionByDefault"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "PreventRAMSharingWithExternalIAM",
+      "Effect": "Deny",
+      "Action": [
+        "ram:CreateResourceShare",
+        "ram:UpdateResourceShare",
+        "ram:AssociateResourceShare"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "Bool": {
+          "ram:RequestedAllowsExternalPrincipals": "true"
+        },
+        "StringNotEqualsIfExists": {
+          "aws:PrincipalOrgID": "o-3jj2faa76f"
+        }
+      }
+    },
+    {
+      "Sid": "PreventRAMSharingWithExternalOrgs",
+      "Effect": "Deny",
+      "Action": [
+        "ram:CreateResourceShare",
+        "ram:AssociateResourceShare"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "ForAnyValue:StringLike": {
+          "ram:Principal": [
+            "arn:aws:organizations::*:organization/*",
+            "arn:aws:organizations::*:ou/*"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "PreventHSMDeletion",
+      "Effect": "Deny",
+      "Action": "cloudhsm:Delete*",
+      "Resource": "*",
+      "Condition": {
+        "ArnNotLike": {
+          "aws:PrincipalARN": [
+            "arn:aws:iam::*:role/AWSControlTowerExecution",
+            "arn:aws:iam::*:role/Terraform_github_actions",
+            "arn:aws:iam::*:role/aws-reserved/sso.amazonaws.com/*/AWSReservedSSO_AWSAdministratorAccess_*"
+          ]
+        }
+      }
+    }
+  ]
+}

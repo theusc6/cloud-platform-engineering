@@ -1,0 +1,7 @@
+SELECT
+  configuration.complianceType,
+  COUNT(*)
+WHERE
+  resourceType = 'AWS::Config::ResourceCompliance'
+GROUP BY
+  configuration.complianceType

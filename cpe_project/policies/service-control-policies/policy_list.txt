@@ -1,0 +1,39 @@
+# aws-guardrails
+aws-guardrails-ANJgDp
+aws-guardrails-ERjCKM
+aws-guardrails-JbSWdI
+aws-guardrails-LhFmfe
+aws-guardrails-Oshgxb
+aws-guardrails-TNKdmv
+aws-guardrails-UkLUeW
+aws-guardrails-VbOxEL
+aws-guardrails-WbXxxy
+aws-guardrails-Xlthfd
+aws-guardrails-aowtcS
+aws-guardrails-fhMglV
+aws-guardrails-hgyUAd
+aws-guardrails-ivjOOZ
+aws-guardrails-mKRRYh
+aws-guardrails-mnBdAd
+aws-guardrails-oNsRVw
+aws-guardrails-qVsueC
+aws-guardrails-sseaYF
+aws-guardrails-yJTXoH
+aws-guardrails-zFxOxd
+aws-guardrails-zROali
+
+# myorg-other
+myorg-deny-all
+myorg-openregion
+myorg-sandbox-scp
+myorg-us-core-region-deny
+myorg-us-core-regiondeny
+myorg-us-region-deny-ire
+myorg-workloads_infra-public-subnet-restrictions
+
+# myorg-root
+myorg-root-administrative-baseline
+myorg-root-data-protection-baseline
+myorg-root-infrastructure-baseline
+myorg-root-scp
+myorg-root-security-tooling-baseline

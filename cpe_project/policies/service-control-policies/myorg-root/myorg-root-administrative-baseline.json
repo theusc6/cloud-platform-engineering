@@ -1,0 +1,146 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "RestrictBillingModification",
+      "Action": [
+        "account:PutContactInformation",
+        "account:PutChallengeQuestions",
+        "account:PutAlternateContact",
+        "account:DeleteAlternateContact",
+        "account:CloseAccount",
+        "billing:UpdateBillingPreferences",
+        "billing:PutContractInformation",
+        "billing:UpdateIAMAccessPreference",
+        "ce:DeleteAnomalyMonitor",
+        "ce:DeleteAnomalySubscription",
+        "ce:DeleteNotificationSubscription",
+        "ce:DeleteReport",
+        "invoicing:PutInvoiceEmailDeliveryPreferences",
+        "payments:DeletePaymentInstrument",
+        "payments:UpdatePaymentPreferences",
+        "tax:BatchPutTaxRegistration",
+        "tax:DeleteTaxRegistration",
+        "tax:PutTaxInheritance"
+      ],
+      "Resource": "*",
+      "Effect": "Deny",
+      "Condition": {
+        "ArnNotLike": {
+          "aws:PrincipalARN": [
+            "arn:aws:iam::*:role/aws-reserved/sso.amazonaws.com/*/AWSReservedSSO_AWSAdministratorAccess_*"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "RootDenyExceptS3",
+      "Effect": "Deny",
+      "Action": [
+        "s3:GetBucketPolicy",
+        "s3:PutBucketPolicy",
+        "s3:DeleteBucketPolicy"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "ArnLike": {
+          "aws:PrincipalArn": "arn:aws:iam::*:root"
+        }
+      }
+    },
+    {
+      "Sid": "DenyCancellationorModificationtoAWSMarketplaceProductSubscriptions",
+      "Effect": "Deny",
+      "Action": [
+        "aws-marketplace:Subscribe",
+        "aws-marketplace:Unsubscribe",
+        "aws-marketplace:CreatePrivateMarketplaceRequests",
+        "aws-marketplace:AssociateProductsWithPrivateMarketplace",
+        "aws-marketplace:DisassociateProductsFromPrivateMarketplace"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "ArnNotLike": {
+          "aws:PrincipalArn": [
+            "arn:aws:iam::*:role/AWSControlTowerExecution",
+            "arn:aws:iam::*:role/aws-reserved/sso.amazonaws.com/*/AWSReservedSSO_AWSAdministratorAccess_*",
+            "arn:aws:iam::123456789012:role/aws-reserved/sso.amazonaws.com/*/AWSReservedSSO_AWSPowerUserAccess_*"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "RootDenyAccessKeyCreation",
+      "Effect": "Deny",
+      "Action": "iam:CreateAccessKey",
+      "Resource": "arn:aws:iam::*:root"
+    },
+    {
+      "Sid": "DenyAccountRegionEnableandDisableActions",
+      "Effect": "Deny",
+      "Action": [
+        "account:EnableRegion",
+        "account:DisableRegion"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "ArnNotLike": {
+          "aws:PrincipalARN": [
+            "arn:aws:iam::*:role/AWSControlTowerExecution",
+            "arn:aws:iam::*:role/aws-reserved/sso.amazonaws.com/*/AWSReservedSSO_AWSAdministratorAccess_*"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "DenyLeavingOrganization",
+      "Effect": "Deny",
+      "Action": [
+        "organizations:LeaveOrganization"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "DenyDisableAMIPublicAccess",
+      "Effect": "Deny",
+      "Action": "ec2:DisableImageBlockPublicAccess",
+      "Resource": "*"
+    },
+    {
+      "Sid": "PreventCreationofDefaultVPCAndSubnet",
+      "Effect": "Deny",
+      "Action": [
+        "ec2:CreateDefaultSubnet",
+        "ec2:CreateDefaultVpc"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Deny",
+      "Action": [
+        "ssm:UpdateServiceSetting",
+        "ssm:ResetServiceSetting"
+      ],
+      "Resource": "arn:aws:ssm:*:*:servicesetting/ssm/documents/console/public-sharing-permission"
+    },
+    {
+      "Sid": "DenyModificationtoSSMServiceSettings",
+      "Effect": "Deny",
+      "Action": [
+        "ssm:UpdateServiceSetting",
+        "ssm:ResetServiceSetting"
+      ],
+      "Resource": "arn:aws:ssm:*:*:servicesetting/ssm/managed-instance/default-ec2-instance-management-role",
+      "Condition": {
+        "ArnNotLike": {
+          "aws:PrincipalARN": [
+            "arn:aws:iam::*:role/AWSControlTowerExecution",
+            "arn:aws:iam::*:role/aws-reserved/sso.amazonaws.com/*/AWSReservedSSO_AWSAdministratorAccess_*",
+            "arn:aws:iam::*:role/Terraform_github_actions",
+            "arn:aws:iam::*:role/terraform_github_actions"
+          ]
+        }
+      }
+    }
+  ]
+}

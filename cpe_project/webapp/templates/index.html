@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>S3 Compliance Enforcer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+        .container {
+            margin-top: 2rem;
+        }
+        .title {
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero is-dark">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    S3 Compliance Enforcer
+                </h1>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <form method="POST">
+                <div class="field">
+                    <label class="label">Bucket name:</label>
+                    <div class="control">
+                        <input class="input" type="text" name="bucket" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">AWS profile:</label>
+                    <div class="control">
+                        <input class="input" type="text" name="profile" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control">
+                        <button class="button is-primary" type="submit">Enforce compliance</button>
+                    </div>
+                </div>
+            </form>
+            {% if message %}
+                <div class="notification is-info">
+                    {{ message }}
+                </div>
+            {% endif %}
+        </div>
+    </section>
+</body>
+</html>

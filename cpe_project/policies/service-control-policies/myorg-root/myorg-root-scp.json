@@ -1,0 +1,95 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Sid": "AllowAll",
+        "Effect": "Allow",
+        "Action": "*",
+        "Resource": "*"
+      },
+      {
+        "Sid": "DenyMemberLeaveOrganization",
+        "Effect": "Deny",
+        "Action": [
+          "organizations:LeaveOrganization"
+        ],
+        "Resource": "*"
+      },
+      {
+        "Sid": "DenyRootUserAction",
+        "Effect": "Deny",
+        "NotAction": [
+          "iam:CreateVirtualMFADevice",
+          "iam:ListVirtualMFADevices",
+          "iam:TagMFADevice"
+        ],
+        "Resource": [
+          "*"
+        ],
+        "Condition": {
+          "StringEquals": {
+            "aws:PrincipalArn": [
+              "arn:aws:iam:*:root"
+            ]
+          }
+        }
+      },
+      {
+        "Sid": "DenyElasticBeanStalk",
+        "Effect": "Deny",
+        "Action": [
+          "elasticbeanstalk:ComposeEnvironments",
+          "elasticbeanstalk:CreateApplication",
+          "elasticbeanstalk:CreateEnvironment"
+        ],
+        "Resource": [
+          "*"
+        ]
+      },
+      {
+        "Sid": "RequireAllEc2RolesToUseV2",
+        "Effect": "Deny",
+        "Action": "*",
+        "Resource": "*",
+        "Condition": {
+          "NumericLessThan": {
+            "ec2:RoleDelivery": "2.0"
+          }
+        }
+      },
+      {
+        "Sid": "SetMaxImdsHopLimit",
+        "Effect": "Deny",
+        "Action": "ec2:RunInstances",
+        "Resource": "arn:aws:ec2:*:*:instance/*",
+        "Condition": {
+          "NumericGreaterThan": {
+            "ec2:MetadataHttpPutResponseHopLimit": "10"
+          }
+        }
+      },
+      {
+        "Sid": "DenyVpcCreate",
+        "Effect": "Deny",
+        "Action": [
+          "ec2:CreateVpc"
+        ],
+        "Resource": [
+          "*"
+        ],
+        "Condition": {
+          "StringNotEquals": {
+            "aws:ResourceAccount": [
+              "123456789012",
+              "123456789012",
+              "123456789012",
+              "123456789012",
+              "123456789012",
+              "123456789012",
+              "123456789012"
+            ]
+          }
+        }
+      }
+    ]
+  }

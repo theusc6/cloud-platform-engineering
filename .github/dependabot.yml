@@ -1,0 +1,39 @@
+version: 2
+updates:
+  # Python dependencies in cpe_project
+  - package-ecosystem: "pip"
+    directory: "/cpe_project/"
+    schedule:
+      interval: "weekly"
+    target-branch: "main"
+    labels:
+      - "dependencies"
+      - "python"
+    commit-message:
+      prefix: "pip"
+      include: "scope"
+    open-pull-requests-limit: 10
+    versioning-strategy: "auto"
+    allow:
+      - dependency-type: "direct"
+      - dependency-type: "indirect"
+    groups:
+      boto-packages:
+        patterns:
+          - "boto3"
+          - "botocore"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    target-branch: "main"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "github-actions"
+      include: "scope"
+    open-pull-requests-limit: 5
+  

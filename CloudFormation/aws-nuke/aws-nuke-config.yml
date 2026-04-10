@@ -1,0 +1,232 @@
+regions:
+  - "global" # Global Resources
+  - "us-east-2"
+  - "us-east-1"
+  - "us-west-2"
+  - "ap-southeast-1"
+  - "eu-west-2"
+  - "ap-east-1"
+
+account-blocklist: # All production-level accounts should be added here to ensure they are NEVER ran against
+  - "123456789012" # Master Account
+
+accounts:
+  "123456789012": # Training and/or Sandbox accounts should be added here to ensure they are ran against
+    presets:
+      - awssso # This is for AWS SSO related resources
+      - controltower # This is for AWS Control Tower related resources
+      - serviceroles # This one is sort of optional, there may be service roles created for various things that we don't want to be removed
+      - organization # These are filters that are the same across multiple accounts
+      - terraform # These are filters for Terraform resources
+      - nuke # These are filters for aws-nuke resources
+      - general # These filters are for aws managed resources
+  "123456789012": # Okta Preview Sandbox Account
+    presets:
+      - awssso # This is for AWS SSO related resources
+      - controltower # This is for AWS Control Tower related resources
+      - serviceroles # This one is sort of optional, there may be service roles created for various things that we don't want to be removed
+      - organization # These are filters that are the same across multiple accounts
+      - terraform # These are filters for Terraform resources
+      - nuke # These are filters for aws-nuke resources    
+      - general # These filters are for aws managed resources
+
+resource-types: # This lists the resource types to be excluded from aws-nuke. An updated list can be found here: https://github.com/rebuy-de/aws-nuke/tree/main/resources
+  excludes:
+    - ConfigServiceConfigRule
+    - ConfigServiceConfigurationRecorder
+    - ConfigServiceDeliveryChannel
+    - DynamoDBTable
+    - DynamoDBTableItem
+    - EC2DHCPOption
+    - EC2InternetGateway
+    - EC2InternetGatewayAttachment
+    - EC2NATGateway
+    - EC2NetworkACL
+    - EC2RouteTable
+    - EC2Subnet
+    - EC2TGW
+    - EC2TGWAttachment
+    - EC2VPC
+    - GuardDutyDetector
+    - GuardDutyFilter
+    - GuardDutyIPSet
+    - GuardDutyMaster
+    - GuardDutyMember
+    - GuardDutyThreatIntelSet
+    - IAMInstanceProfileRole
+    - IAMOpenIDConnectProvider
+    - IAMSAMLProvider
+    - Route53ResolverRule
+    - S3Bucket
+    - S3Object
+    - SecurityHub
+    - Inspector2
+    - Macie
+    - OSPackage # don't nuke OpenSearch Packages, see https://github.com/rebuy-de/aws-nuke/issues/1123
+    - IAMVirtualMFADevice # Excluding as the deletions fail, by default
+    - FMSNotificationChannel # Excluding as the deletions fail, by default
+    - SecretsManagerSecret
+    - CloudFrontDistribution
+    - CloudFrontDistributionDeployment
+    - ServiceDiscoveryNamespace
+    - EC2Instance # temporary
+    - EC2NetworkInterface # temporary
+    - EC2Volume # temporary
+    - WAFv2WebACL
+    - EC2SecurityGroup # temporary
+
+presets:
+  awssso:
+    filters:
+      IAMRole:
+      - type: "glob"
+        value: "AWSReservedSSO_*"
+      IAMRolePolicyAttachment:
+      - type: "glob"
+        value: "AWSReservedSSO_*"
+      IAMRolePolicy:
+      - type: "glob"
+        value: "AWSReservedSSO_*"
+      IAMSAMLProvider:
+      - type: "glob"
+        value: "arn:aws:iam:*:saml-provider/AWSSSO*"
+      - type: "glob"
+        value: "arn:aws:iam:*:oidc-provider/token.actions.githubusercontent.com*"
+      OpsWorksUserProfile:
+      - type: "glob"
+        value: "arn:aws:sts::123456789012:assumed-role/AWSReservedSSO*/*"
+  controltower:
+    filters:
+      CloudFormationStack:
+        - type: "glob"
+          value: "StackSet-AWSControlTower*"
+      IAMRole:
+        - type: "glob"
+          value: "aws-controltower*"
+        - type: "glob"
+          value: "AWSControlTower*"
+      IAMRolePolicyAttachment:
+        - type: "glob"
+          value: "aws-controltower*"
+        - type: "glob"
+          value: "AWSControlTower*"
+      IAMRolePolicy:
+        - type: "glob"
+          value: "aws-controltower*"
+        - type: "glob"
+          value: "AWSControlTower*"
+      CloudWatchEventsRule:
+        - type: "glob"
+          value: "Rule: aws-controltower*"
+      CloudWatchEventsTarget:
+        - type: "glob"
+          value: "Rule: aws-controltower* Target ID: *"
+      CloudWatchLogsLogGroup:
+        - type: "glob"
+          value: "/aws/*/aws-controltower*"
+      SNSTopic:
+        - type: "glob"
+          value: "TopicARN: arn:aws:sns:*:*:aws-controltower-*"
+      SNSSubscription:
+        - type: "glob"
+          value: "Owner: * ARN: arn:aws:sns:*:*:aws-controltower-*:*"
+      LambdaFunction:
+        - type: "glob"
+          value: "aws-controltower*"
+      CloudTrailTrail:
+        - "aws-controltower-BaselineCloudTrail"
+  serviceroles:
+    filters:
+      IAMRole:
+        - type: "glob"
+          value: "AWSServiceRole*"
+      IAMRolePolicyAttachment:
+        - type: "glob"
+          value: "AWSServiceRole*"
+      IAMRolePolicy:
+        - type: "glob"
+          value: "AWSServiceRole*"
+      IAMPolicy:
+        - type: "glob"
+          value: "arn:aws:iam::123456789012:policy/service-role/*"
+  organization:
+    filters:
+      IAMRole:
+        - "OrganizationAccountAccessRole"
+      IAMRolePolicyAttachment:
+        - "OrganizationAccountAccessRole -> AdministratorAccess"
+  terraform:
+    filters:
+      IAMRole:
+        - type: "glob"
+          value: "Terraform_*"
+      IAMInstanceProfile:
+        - type: "glob"
+          value: "Terraform_*"
+      IAMRolePolicyAttachment:
+        - type: "glob"
+          value: "Terraform_*"
+  nuke:
+    filters:
+      SSMParameter:
+        - type: "glob"
+          value: "/nuke-infra/*"
+      OpsWorksUserProfile:
+        - type: "glob"
+          value: "arn:aws:sts::123456789012:assumed-role/nuke*/*"
+      IAMRole:
+        - type: "glob"
+          value: "nuke*"
+      IAMRolePolicy:
+        - type: "glob"
+          value: "nuke*"
+      ECSTaskDefinition:
+        - type: "glob"
+          value: "arn:aws:ecs:us-west-2:123456789012:task-definition/nuke*"
+      ECSTask: 
+        - property: "TaskARN"
+          type: "glob"
+          value: "arn:aws:ecs:us-west-2:123456789012:task/nuke-cluster*"
+        - property: "ClusterARN"
+          type: "glob"
+          value: "arn:aws:ecs:us-west-2:123456789012:cluster/nuke-cluster"
+      ECSCluster:
+        - "arn:aws:ecs:us-west-2:123456789012:cluster/nuke-cluster"
+        - "arn:aws:ecs:us-west-2:123456789012:cluster/test-cluster"
+      EC2NetworkInterface:
+        - property: "ID"
+          type: "glob"
+          value: "eni-02a057eb74033edc3" # Update this with the Interface ID assigned to NAT GW
+        - property: "tag:aws:ecs:clusterName"
+          type: "glob"
+          value: "*nuke-cluster*"
+      EC2Address:
+        - property: "AllocationID"
+          type: "glob"
+          value: "eipalloc-0d6da45e224b33d2b" # Update this with the EC2Address assigned to NAT GW
+      EC2SecurityGroup:
+        - "sg-046bc691cf85f0b8c" # Update this with the SG ID created by the CF Stack
+      CloudWatchEventsRule:
+        - "Rule: nuke-task-scheduler"
+      CloudWatchEventsTarget:
+        - "Rule: nuke-task-scheduler Target ID: nuke-task"
+      CloudWatchLogsLogGroup:
+        - "/nuke"
+        - type: "glob"
+          value: "/aws/ecs/containerinsights/nuke-cluster/*"
+      CloudFormationStack:
+        - type: "glob"
+          value: "myorg-nuke-infrastructure*"
+        - type: "glob"
+          value: "Infra-ECS-Cluster-test-cluster*"
+      S3Bucket:
+        - "s3://myorg-nuke-config-123456789012-us-west-2"
+      S3Object:
+        - "s3://myorg-nuke-config-123456789012-us-west-2/nuke-config.yml"
+      serviceroles:
+  general:
+    filters:
+      KMSAlias:
+        - property: "Name"
+          type: "glob"
+          value: "alias/aws*" # Filters out AWS-managed KMS keys as denoted by alias/aws/

@@ -1,0 +1,149 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "PreventMacieDeletion",
+      "Effect": "Deny",
+      "Action": [
+        "macie2:DeleteMember",
+        "macie2:Disable*",
+        "macie2:Disassociate*",
+        "macie2:UpdateMacieSession",
+        "macie2:UpdateMemberSession"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "ArnNotLike": {
+          "aws:PrincipalARN": [
+            "arn:aws:iam::*:role/aws-reserved/sso.amazonaws.com/*/AWSReservedSSO_AWSAdministratorAccess_*"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "PreventAccessAnalyzerModifications",
+      "Effect": "Deny",
+      "Action": [
+        "access-analyzer:ApplyArchiveRule",
+        "access-analyzer:CreateArchiveRule",
+        "access-analyzer:DeleteAnalyzer",
+        "access-analyzer:DeleteArchiveRule",
+        "access-analyzer:UpdateArchiveRule",
+        "access-analyzer:UpdateFindings"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "ArnNotLike": {
+          "aws:PrincipalARN": [
+            "arn:aws:iam::*:role/aws-reserved/sso.amazonaws.com/*/AWSReservedSSO_AWSAdministratorAccess_*"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "PreventSecurityHubModification",
+      "Action": [
+        "securityhub:DeleteInvitations",
+        "securityhub:BatchDisableStandards",
+        "securityhub:DeleteActionTarget",
+        "securityhub:DeleteInsight",
+        "securityhub:TagResource",
+        "securityhub:UntagResource",
+        "securityhub:UpdateStandardsControl",
+        "securityhub:UpdateSecurityHubConfiguration",
+        "securityhub:UpdateFindingAggregator",
+        "securityhub:UpdateOrganizationConfiguration",
+        "securityhub:DisableSecurityHub",
+        "securityhub:DisassociateFromMasterAccount",
+        "securityhub:DeleteMembers",
+        "securityhub:DisassociateMembers",
+        "securityhub:DisableImportFindingsForProduct"
+      ],
+      "Resource": "*",
+      "Effect": "Deny",
+      "Condition": {
+        "ArnNotLike": {
+          "aws:PrincipalARN": [
+            "arn:aws:iam::*:role/aws-reserved/sso.amazonaws.com/*/AWSReservedSSO_AWSAdministratorAccess_*"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "PreventDeletionofConfig",
+      "Effect": "Deny",
+      "Action": [
+        "config:DeleteConfigurationAggregator",
+        "config:DeleteConfigurationRecorder",
+        "config:DeleteDeliveryChannel",
+        "config:PutConfigRule",
+        "config:DeleteConfigRule",
+        "config:DeleteOrganizationConfigRule",
+        "config:DeleteRetentionConfiguration",
+        "config:PutConfigurationAggregator",
+        "config:PutConfigurationRecorder",
+        "config:PutDeliveryChannel",
+        "config:PutRetentionConfiguration",
+        "config:StopConfigurationRecorder",
+        "config:DeliverConfigSnapshot",
+        "config:DeleteAggregationAuthorization",
+        "config:DeleteEvaluationResults"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "ArnNotLike": {
+          "aws:PrincipalARN": [
+            "arn:aws:iam::*:role/aws-reserved/sso.amazonaws.com/*/AWSReservedSSO_AWSAdministratorAccess_*",
+            "arn:aws:iam::*:role/AWSControlTowerExecution"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "PreventDisablingOrConfigChangeforGuardDuty",
+      "Effect": "Deny",
+      "Action": [
+        "guardduty:AcceptInvitation",
+        "guardduty:ArchiveFindings",
+        "guardduty:CreateDetector",
+        "guardduty:CreateFilter",
+        "guardduty:CreateIPSet",
+        "guardduty:CreateMembers",
+        "guardduty:CreatePublishingDestination",
+        "guardduty:CreateSampleFindings",
+        "guardduty:CreateThreatIntelSet",
+        "guardduty:DeclineInvitations",
+        "guardduty:DeleteDetector",
+        "guardduty:DeleteFilter",
+        "guardduty:DeleteInvitations",
+        "guardduty:DeleteIPSet",
+        "guardduty:DeleteMembers",
+        "guardduty:DeletePublishingDestination",
+        "guardduty:DeleteThreatIntelSet",
+        "guardduty:DisassociateFromMasterAccount",
+        "guardduty:DisassociateMembers",
+        "guardduty:InviteMembers",
+        "guardduty:StartMonitoringMembers",
+        "guardduty:StopMonitoringMembers",
+        "guardduty:TagResource",
+        "guardduty:UnarchiveFindings",
+        "guardduty:UntagResource",
+        "guardduty:UpdateDetector",
+        "guardduty:UpdateFilter",
+        "guardduty:UpdateFindingsFeedback",
+        "guardduty:UpdateIPSet",
+        "guardduty:UpdatePublishingDestination",
+        "guardduty:UpdateThreatIntelSet"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "ArnNotLike": {
+          "aws:PrincipalARN": [
+            "arn:aws:iam::*:role/aws-reserved/sso.amazonaws.com/*/AWSReservedSSO_AWSAdministratorAccess_*",
+            "arn:aws:iam::*:role/Terraform_github_actions"
+          ]
+        }
+      }
+    }
+  ]
+}
